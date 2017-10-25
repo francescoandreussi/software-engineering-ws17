@@ -1,4 +1,4 @@
-public class DollarToEuroConverter extends UnitConverter
+public class DollarToEuroConverter extends CurrencyConverter
 {
   public DollarToEuroConverter() { }
 
