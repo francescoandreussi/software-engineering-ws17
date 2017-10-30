@@ -2,7 +2,7 @@ public class KiloToPoundConverter extends WeightConverter
 {
   public KiloToPoundConverter() { }
 
-  public double convert(double inKilos) {
+  public double convert(double inKilos){
     return inKilos*2.205;
   }
 

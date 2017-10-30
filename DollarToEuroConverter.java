@@ -2,7 +2,7 @@ public class DollarToEuroConverter extends CurrencyConverter
 {
   public DollarToEuroConverter() { }
 
-  public double convert(double inDollars) {
+  public double convert(double inDollars){
     return inDollars*0.85;
   }
 

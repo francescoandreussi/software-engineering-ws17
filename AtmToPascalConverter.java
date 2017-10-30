@@ -2,7 +2,7 @@ public class AtmToPascalConverter extends PressureConverter
 {
   public AtmToPascalConverter() { }
 
-  public double convert(double inAtms) {
+  public double convert(double inAtms){
     return inAtms*101325.0;
   }
 

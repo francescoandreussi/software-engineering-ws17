@@ -6,7 +6,7 @@ all: test
 	javac $^
 
 test: Main.class TestSuite.class
-	  javac TinyTestJ/RunTests.java
+	javac TinyTestJ/RunTests.java
 	#java Main DollarToEuro 10000
 	java TinyTestJ.RunTests TestSuite
 

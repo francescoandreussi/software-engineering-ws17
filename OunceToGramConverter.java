@@ -2,7 +2,7 @@ public class OunceToGramConverter extends WeightConverter
 {
   public OunceToGramConverter() { }
 
-  public double convert(double inOunces) {
+  public double convert(double inOunces){
     return inOunces*28.349;
   }
 

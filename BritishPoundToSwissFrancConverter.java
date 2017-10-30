@@ -2,7 +2,7 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
 {
   public BritishPoundToSwissFrancConverter() { }
 
-  public double convert(double inGPBs) {
+  public double convert(double inGPBs){
     return inGPBs*1.297;
   }
 

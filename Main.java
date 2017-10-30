@@ -3,6 +3,7 @@ class Main {
     {
         try{
             if(args.length != 2){
+                //if the command line call does not have two args throws an Exception to avoid an out-of-bounds-reading
                 throw new NumberOfArgsException("Main requires 2 arguments!");
             }
 
