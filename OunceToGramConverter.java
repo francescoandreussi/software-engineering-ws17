@@ -2,6 +2,10 @@ public class OunceToGramConverter extends WeightConverter
 {
   public OunceToGramConverter() { }
 
+  public OunceToGramConverter clone() {
+    return new OunceToGramConverter();
+  }
+
   public double convert(double inOunces){
     return inOunces*28.349;
   }
@@ -10,7 +14,7 @@ public class OunceToGramConverter extends WeightConverter
     return "Ounce to Gram Converter";
   }
 
-  public void print(){
-    System.out.println(toString());
+  public void convertAndPrint(double value){
+    System.out.println(this.toString() + " has converted " + value + " oz to " + this.convert(value) + " g!");
   }
 };

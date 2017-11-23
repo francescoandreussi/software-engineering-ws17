@@ -15,10 +15,14 @@ class Main {
             //It converts a string into a double, if the string is invalid it thorws a NumberFormatException
             double realValue = Double.parseDouble(value); 
             
-            UnitConverter myConverter;  //initialise the object that will call the converter
+            //UnitConverter myConverter;  //initialise the object that will call the converter
+            ConverterFactory myfactory = new ConverterFactory();
+
+            UnitConverter converter = myfactory.create(conversion);
+            converter.convertAndPrint(realValue);
             
             //Calling the right conversion with its value with respect to the input
-            switch (conversion) {
+            /* switch (conversion) {
             case "DollarToEuro":
                 myConverter = new DollarToEuroConverter();
                 double euros = myConverter.convert(realValue);
@@ -52,7 +56,8 @@ class Main {
             default:
                 //if the string in the input is different to those written in the case branches of the switch throw exception
                 throw new BadConversionStringException("The first argument is not a valid conversion string!");
-            }
+            } */
+
         }
         catch(NumberOfArgsException e){
             System.out.println(e.getMessage());

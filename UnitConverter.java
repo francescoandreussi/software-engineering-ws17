@@ -10,8 +10,9 @@
 public abstract class UnitConverter
 {
   public UnitConverter() { }
+  public abstract UnitConverter clone();
   public abstract double convert(double inValue);
   public abstract String toString();
-  public abstract void print();
+  public abstract void convertAndPrint(double value);
 };
 
