@@ -26,23 +26,25 @@ public class ConverterFactory {
     }
 
     public static UnitConverter create(String conversion) throws BadConversionStringException{
-        // use of HashMap inspired by the example at this link https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
-        // initializing the hash map
-        HashMap<String, Integer> mappingFunction = new HashMap<String, Integer>();
-        // filling the hash map
-        mappingFunction.put("DollarToEuro", 0);
-        mappingFunction.put("BritishPoundToSwissFranc", 1);
-        mappingFunction.put("AtmosphereToPascal", 2);
-        mappingFunction.put("BarToKilogramPerSquaredMeter", 3);
-        mappingFunction.put("KilogramToPound", 4);
-        mappingFunction.put("OunceToGram", 5);
-        // instancing the correct UnitConverter w.r.t. the input string. An exception is thrown if the string is not present in the HashMap
-        // (it will be handled in the main)
-        UnitConverter converter = makeConverter(mappingFunction.get(conversion));
-        if (converter == null){
-            throw new BadConversionStringException("The first argument is not a valid conversion string!");
-        } else {
+        try{
+            // use of HashMap inspired by the example at this link https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
+            // initializing the hash map
+            HashMap<String, Integer> mappingFunction = new HashMap<String, Integer>();
+            // filling the hash map
+            mappingFunction.put("DollarToEuro", 0);
+            mappingFunction.put("BritishPoundToSwissFranc", 1);
+            mappingFunction.put("AtmosphereToPascal", 2);
+            mappingFunction.put("BarToKilogramPerSquaredMeter", 3);
+            mappingFunction.put("KilogramToPound", 4);
+            mappingFunction.put("OunceToGram", 5);
+            // instancing the correct UnitConverter w.r.t. the input string. An exception is thrown if the string is not present in the HashMap
+            // (it will be handled in the main)
+            Integer choice = mappingFunction.get(conversion);
+            UnitConverter converter = makeConverter(choice);
             return converter;
+        }
+        catch(NullPointerException e){
+            throw new BadConversionStringException("The first argument is not a valid conversion string!");
         }
     }
 }

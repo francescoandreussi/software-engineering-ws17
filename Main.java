@@ -20,43 +20,6 @@ class Main {
 
             UnitConverter converter = myfactory.create(conversion);
             converter.convertAndPrint(realValue);
-            
-            //Calling the right conversion with its value with respect to the input
-            /* switch (conversion) {
-            case "DollarToEuro":
-                myConverter = new DollarToEuroConverter();
-                double euros = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " USD to " + euros + " EUR!");
-                break;
-            case "BritishPoundToSwissFranc":
-                myConverter = new BritishPoundToSwissFrancConverter();
-                double francs = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " GPB to " + francs + " CHF!");
-            break;
-            case "AtmosphereToPascal":
-                myConverter = new AtmToPascalConverter();
-                double pascals = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " Atm to " + pascals + " Pa!");
-                break;
-            case "BarToKilogramPerSquaredMeter":
-                myConverter = new BarToKgPerSqMtConverter();
-                double kgPerSqM = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " b to " + kgPerSqM + " kg/Sq.m!");
-            break;
-            case "KilogramToPound":
-                myConverter = new KiloToPoundConverter();
-                double pounds = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " kg to " + pounds + " lb!");
-            break;
-            case "OunceToGram":
-                myConverter = new OunceToGramConverter();
-                double grams = myConverter.convert(realValue);
-                System.out.println(myConverter.toString() + " has converted " + value + " oz to " + grams + " g!");
-                break;
-            default:
-                //if the string in the input is different to those written in the case branches of the switch throw exception
-                throw new BadConversionStringException("The first argument is not a valid conversion string!");
-            } */
 
         }
         catch(NumberOfArgsException e){
