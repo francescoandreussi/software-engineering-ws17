@@ -5,14 +5,17 @@ import java.util.HashMap;
  */
 public class ConverterFactory {
     private static ConverterFactory s_instance = null;
+    private static int numberOfInstances = 0;
 
     protected ConverterFactory(){}
 
     // Singelton pattern! It is possible to create only one instance of ConverterFactory because the constructor is protected and
     // it is possible to create an instance only with this static method that checks if a instance is already been instanced
     public static ConverterFactory instance() {
-        if (s_instance == null)
+        if (s_instance == null){
             s_instance = new ConverterFactory();
+            numberOfInstances++;
+        }
         return s_instance;
     }
     
@@ -46,5 +49,13 @@ public class ConverterFactory {
         catch(NullPointerException e){
             throw new BadConversionStringException("The first argument is not a valid conversion string!");
         }
+    }
+
+    public int getNumberOfInstances() {
+        return numberOfInstances;
+    }
+    
+    public String toString(){
+        return ("Instance of ConverterFactory. Number of Instances: " + numberOfInstances);
     }
 }
