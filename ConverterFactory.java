@@ -51,7 +51,7 @@ public class ConverterFactory {
         }
     }
 
-    public int getNumberOfInstances() {
+    public static int getNumberOfInstances() {
         return numberOfInstances;
     }
     

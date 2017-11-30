@@ -4,7 +4,6 @@ import static TinyTestJ.Assert.*;
 public class TestSuite {
   @Test public static void DETest1(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(10000);
       assertEquals(8500,result,0.001);
@@ -15,7 +14,6 @@ public class TestSuite {
   }
   @Test public static void DETest2(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(-1);
       assertEquals(-0.85,result,0.001);
@@ -26,7 +24,6 @@ public class TestSuite {
   }
   @Test public static void DETest3(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(-Double.MIN_VALUE);
       assertEquals(-Double.MIN_VALUE,result,0.000);
@@ -37,7 +34,6 @@ public class TestSuite {
   }
   @Test public static void PFTest1(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(450.5678);
       assertEquals(584.3864365999999,result,0.001);
@@ -48,7 +44,6 @@ public class TestSuite {
   }
   @Test public static void PFTest2(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(Double.NEGATIVE_INFINITY);
       assertEquals(Double.NEGATIVE_INFINITY,result,0.0);
@@ -59,7 +54,6 @@ public class TestSuite {
   }
   @Test public static void PFTest3(){
     try{
-     ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(Double.MAX_VALUE);
       assertEquals(Double.POSITIVE_INFINITY,result,0.000);
@@ -70,7 +64,6 @@ public class TestSuite {
   }
   @Test public static void APTest1(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("AtmosphereToPascal");
       double result = test.convert(6.33333333333333);
       assertEquals(641724.9999999997,result,0.001);
@@ -81,7 +74,6 @@ public class TestSuite {
   }
   @Test public static void APTest2(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("AtmosphereToPascal");
       double result = test.convert(-900000);
       assertEquals(-9.11925E10,result,0.001);
@@ -92,7 +84,6 @@ public class TestSuite {
   }
   @Test public static void APTest3(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("AtmosphereToPascal");
       double result = test.convert(Double.NaN);
      assertEquals(Double.NaN,result,0.000);
@@ -103,7 +94,6 @@ public class TestSuite {
   }
   @Test public static void BKpSMTest1(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("BarToKilogramPerSquaredMeter");
       double result = test.convert(2.67);
       assertEquals(27226.42254,result,0.001);
@@ -114,7 +104,6 @@ public class TestSuite {
   }
   @Test public static void BKpSMTest2(){
     try{
-     ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("BarToKilogramPerSquaredMeter");
       double result = test.convert(99999999999999999999999999999999.0);
       assertEquals(1.0197162E36,result,0.001);
@@ -125,7 +114,6 @@ public class TestSuite {
   }
   @Test public static void BKpSMTest3(){
     try{
-     ConverterFactory factory = ConverterFactory.instance();
      UnitConverter test = ConverterFactory.create("BarToKilogramPerSquaredMeter");
      double result = test.convert(Double.POSITIVE_INFINITY);
      assertEquals(Double.POSITIVE_INFINITY,result,0.000);
@@ -136,7 +124,6 @@ public class TestSuite {
   }
   @Test public static void KPTest1(){
     try{
-     ConverterFactory factory = ConverterFactory.instance();
      UnitConverter test = ConverterFactory.create("KilogramToPound");
      double result = test.convert(Double.MAX_VALUE);
      assertEquals(Double.POSITIVE_INFINITY,result,0.001);
@@ -147,7 +134,6 @@ public class TestSuite {
   }
   @Test public static void KPTest2(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test =ConverterFactory.create("KilogramToPound");
       double result = test.convert(500);
       assertEquals(1102.5,result,0.001);
@@ -158,7 +144,6 @@ public class TestSuite {
   }
   @Test public static void KPTest3(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("KilogramToPound");
       double result = test.convert(Double.NaN);
       assertEquals(Double.NaN,result,0.001);
@@ -169,7 +154,6 @@ public class TestSuite {
   }
   @Test public static void OGTest1(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("OunceToGram");
       double result = test.convert(-(-(45.8262901)));
       assertEquals(1299.1294980449,result,0.001);
@@ -180,7 +164,6 @@ public class TestSuite {
   }
   @Test public static void OGTest2(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("OunceToGram");
       double result = test.convert(765317635876847368726874.86587263598178298);
       assertEquals(2.1695989659472745E25,result,0.001);
@@ -191,7 +174,6 @@ public class TestSuite {
   }
   @Test public static void OGTest3(){
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("OunceToGram");
       double result = test.convert(Double.MAX_EXPONENT);
       assertEquals(29001.027000000002,result,0.001);
@@ -204,7 +186,6 @@ public class TestSuite {
     String expected = "The first argument is not a valid conversion string!";
     String actual = "";
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("NonCompliantString");
     } catch(BadConversionStringException e){
       actual = e.getMessage();
@@ -217,7 +198,6 @@ public class TestSuite {
     String expected = "The first argument is not a valid conversion string!";
     String actual = "";
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("");
     } catch(BadConversionStringException e){
       actual = e.getMessage();
@@ -230,7 +210,6 @@ public class TestSuite {
     String expected = "The first argument is not a valid conversion string!";
     String actual = "";
     try{
-      ConverterFactory factory = ConverterFactory.instance();
       UnitConverter test = ConverterFactory.create("OunceToGram25.96");
     } catch(BadConversionStringException e){
       actual = e.getMessage();
@@ -240,8 +219,13 @@ public class TestSuite {
     }
   }
   @Test public static void NumOfInstTest(){
-    ConverterFactory factory = ConverterFactory.instance();
-    int result = factory.getNumberOfInstances();
+    ConverterFactory factory1 = ConverterFactory.instance();
+    ConverterFactory factory2 = ConverterFactory.instance();
+    ConverterFactory factory3 = ConverterFactory.instance();
+    ConverterFactory factory4 = ConverterFactory.instance();
+    ConverterFactory factory5 = ConverterFactory.instance();
+    ConverterFactory factory6 = ConverterFactory.instance();
+    int result = ConverterFactory.getNumberOfInstances();
     assertEquals(1, result, 0);
   }
 }

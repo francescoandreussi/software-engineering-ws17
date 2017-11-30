@@ -15,12 +15,8 @@ class Main {
             //It converts a string into a double, if the string is invalid it thorws a NumberFormatException
             double realValue = Double.parseDouble(value); 
             
-            //UnitConverter myConverter;  //initialise the object that will call the converter
-            ConverterFactory myfactory = new ConverterFactory();
-
-            UnitConverter converter = myfactory.create(conversion);
+            UnitConverter converter = ConverterFactory.create(conversion);
             converter.convertAndPrint(realValue);
-
         }
         catch(NumberOfArgsException e){
             System.out.println(e.getMessage());
