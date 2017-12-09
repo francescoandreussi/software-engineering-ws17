@@ -20,9 +20,9 @@ public class ConverterFactory {
     }
     
     // initializing prototypes list
-    private static final UnitConverter s_prototypes[] = {  new DollarToEuroConverter(), new BritishPoundToSwissFrancConverter(),
-                                            new AtmToPascalConverter(), new BarToKgPerSqMtConverter(),
-                                            new KiloToPoundConverter(), new OunceToGramConverter() };
+    private static final UnitConverter s_prototypes[] = {  new DollarToEuroConverter(), new BritishPoundToSwissFrancConverter(), new EuroToBritishPoundConverter(),
+                                            new AtmToPascalConverter(), new PascalToBarConverter(), new BarToKgPerSqMtConverter(),
+                                            new KiloToPoundConverter(), new PoundToOunceConverter(), new OunceToGramConverter() };
 
     private static UnitConverter makeConverter(int choice) {
         return s_prototypes[choice].clone();
@@ -36,10 +36,13 @@ public class ConverterFactory {
             // filling the hash map
             mappingFunction.put("DollarToEuro", 0);
             mappingFunction.put("BritishPoundToSwissFranc", 1);
-            mappingFunction.put("AtmosphereToPascal", 2);
-            mappingFunction.put("BarToKilogramPerSquaredMeter", 3);
-            mappingFunction.put("KilogramToPound", 4);
-            mappingFunction.put("OunceToGram", 5);
+            mappingFunction.put("EuroToBritishPound", 2);
+            mappingFunction.put("AtmosphereToPascal", 3);
+            mappingFunction.put("PascalToBar", 4);
+            mappingFunction.put("BarToKilogramPerSquaredMeter", 5);
+            mappingFunction.put("KilogramToPound", 6);
+            mappingFunction.put("PoundToOunce", 7);
+            mappingFunction.put("OunceToGram", 8);
             // instancing the correct UnitConverter w.r.t. the input string. An exception is thrown if the string is not present in the HashMap
             // (it will be handled in the main)
             Integer choice = mappingFunction.get(conversion);

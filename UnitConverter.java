@@ -9,8 +9,12 @@
 
 public abstract class UnitConverter
 {
+  public UnitConverter base_conversion;
+
   public UnitConverter() { }
+  public abstract void link(UnitConverter converter);
   public abstract UnitConverter clone();
+  public abstract double simpleConvert(double inValue);
   public abstract double convert(double inValue);
   public abstract String toString();
   public abstract void convertAndPrint(double value);

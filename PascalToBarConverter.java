@@ -1,11 +1,11 @@
-public class AtmToPascalConverter extends PressureConverter
+public class PascalToBarConverter extends PressureConverter
 {
-  public AtmToPascalConverter() {
+  public PascalToBarConverter() {
     super();
     base_conversion = null;
   }
 
-  public AtmToPascalConverter(PressureConverter converter){
+  public PascalToBarConverter(PressureConverter converter){
     super();
     base_conversion = converter;
   }
@@ -17,24 +17,24 @@ public class AtmToPascalConverter extends PressureConverter
     }
   }
 
-  public AtmToPascalConverter clone(){
-    return new AtmToPascalConverter();
+  public PascalToBarConverter clone(){
+    return new PascalToBarConverter();
   }
 
-  public double simpleConvert(double inAtms) {
-    return inAtms * 101325.0;
+  public double simpleConvert(double inPascals) {
+    return inPascals * 0.00001;
   }
 
-  public double convert(double inAtms){
+  public double convert(double inPascals){
     if (this.base_conversion == null) {
-      return inAtms*101325.0;
+        return inPascals*0.00001;
     } else {
-      return this.base_conversion.convert(inAtms) * 101325.0;
+        return this.base_conversion.convert(inPascals) * 0.00001;
     }
   }
 
   public String toString(){
-    return "Atmosphere to Pascal Converter";
+    return "Pascal to Bar Converter";
   }
 
   public void convertAndPrint(double value){

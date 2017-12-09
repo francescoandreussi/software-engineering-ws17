@@ -218,6 +218,30 @@ public class TestSuite {
       fail("expected: String<" + expected + "> but was String<" + actual + ">");
     }
   }
+  @Test public static void chaining1() {
+    UnitConverter test = new EuroToBritishPoundConverter(new DollarToEuroConverter());
+    double result = test.convert(1);
+    //test.convertAndPrint(1);
+    assertEquals(0.7395, result, 0.001);
+  }
+  @Test public static void chaining2() {
+    UnitConverter test = new BritishPoundToSwissFrancConverter(new EuroToBritishPoundConverter(new DollarToEuroConverter()));
+    double result = test.convert(1);
+    //test.convertAndPrint(1);
+    assertEquals(0.959, result, 0.001);
+  }
+  @Test public static void chaining3() {
+    UnitConverter test = new BarToKgPerSqMtConverter(new PascalToBarConverter(new AtmToPascalConverter()));
+    double result = test.convert(1);
+    //test.convertAndPrint(1);
+    assertEquals(10332.274, result, 0.001);
+  }
+  @Test public static void chaining4() {
+    UnitConverter test = new KiloToPoundConverter(new PoundToOunceConverter(new OunceToGramConverter()));
+    double result = test.convert(1);
+    //test.convertAndPrint(1);
+    assertEquals(1000.153, result, 0.001);
+  }
   @Test public static void NumOfInstTest(){
     ConverterFactory factory1 = ConverterFactory.instance();
     ConverterFactory factory2 = ConverterFactory.instance();
