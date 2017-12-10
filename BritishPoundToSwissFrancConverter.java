@@ -1,13 +1,24 @@
 public class BritishPoundToSwissFrancConverter extends CurrencyConverter
 {
+  private double conversionFactor = 1.297;
+
   public BritishPoundToSwissFrancConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public BritishPoundToSwissFrancConverter(CurrencyConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor){
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
@@ -16,7 +27,7 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
     //System.out.println("Expected base_conversion class: " + mappingFunction.get(this.getClass()).toString());
     if(mappingFunction.get(this.getClass()).equals(convClass)){
       //System.out.println("LINKING...");
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -25,14 +36,14 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inGPBs){
-    return inGPBs * 1.297;
+    return inGPBs * this.conversionFactor;
   }
   
   public double convert(double inGPBs){
     if (this.base_conversion == null) {
-      return inGPBs*1.297;
+      return inGPBs * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inGPBs)*1.297;
+      return this.base_conversion.convert(inGPBs) * this.conversionFactor;
     }
   }
 

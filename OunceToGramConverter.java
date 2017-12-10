@@ -1,19 +1,30 @@
 public class OunceToGramConverter extends WeightConverter
 {
+  private double conversionFactor = 28.349;
+
   public OunceToGramConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public OunceToGramConverter(WeightConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
     Class convClass = converter.getClass();
     if(mappingFunction.get(this.getClass()).equals(convClass)){
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -22,14 +33,15 @@ public class OunceToGramConverter extends WeightConverter
   }
 
   public double simpleConvert(double inOunces) {
-    return inOunces * 28.349;
+    return inOunces * this.conversionFactor;
   }
 
   public double convert(double inOunces){
+    //System.out.println("Ounce to Gram convert");
     if (this.base_conversion == null) {
-      return inOunces*28.349;
+      return inOunces * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inOunces) * 28.349;
+      return this.base_conversion.convert(inOunces) * this.conversionFactor;
     }
   }
 
@@ -39,11 +51,13 @@ public class OunceToGramConverter extends WeightConverter
 
   public void convertAndPrint(double value) {
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " oz to " + this.convert(value) + " g!");
+      //System.out.println("caso base convertAndPrint OunceToGram");
+      System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
     } else {
+      //System.out.println("caso generico convertAndPrint OunceToGram");
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println("Then, " + this.toString() + " converted " + value + " oz to " + this.convert(value) + " g!");
+      System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
     }
   }
 };

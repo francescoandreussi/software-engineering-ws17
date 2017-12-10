@@ -1,19 +1,30 @@
 public class AtmToPascalConverter extends PressureConverter
 {
+  private double conversionFactor = 101325.0;
+
   public AtmToPascalConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public AtmToPascalConverter(PressureConverter converter){
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
     Class convClass = converter.getClass();
     if(mappingFunction.get(this.getClass()).equals(convClass)){
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -22,14 +33,14 @@ public class AtmToPascalConverter extends PressureConverter
   }
 
   public double simpleConvert(double inAtms) {
-    return inAtms * 101325.0;
+    return inAtms * this.conversionFactor;
   }
 
   public double convert(double inAtms){
     if (this.base_conversion == null) {
-      return inAtms*101325.0;
+      return inAtms * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inAtms) * 101325.0;
+      return this.base_conversion.convert(inAtms) * this.conversionFactor;
     }
   }
 
@@ -39,11 +50,11 @@ public class AtmToPascalConverter extends PressureConverter
 
   public void convertAndPrint(double value){
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " Atm to " + this.convert(value) + " Pa!");
+      System.out.println(this.toString() + " converted " + value + " Atm to " + this.simpleConvert(value) + " Pa!");
     } else {
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println("Then, " + this.toString() + " converted " + value + " Atm to " + this.convert(value) + " Pa!");
+      System.out.println(this.toString() + " converted " + value + " Atm to " + this.simpleConvert(value) + " Pa!");
     }
   }
 };

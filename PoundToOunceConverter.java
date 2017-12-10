@@ -1,19 +1,30 @@
 public class PoundToOunceConverter extends WeightConverter
 {
+  private double conversionFactor = 16.0;
+
   public PoundToOunceConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public PoundToOunceConverter(WeightConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
     Class convClass = converter.getClass();
     if(mappingFunction.get(this.getClass()).equals(convClass)){
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -22,14 +33,14 @@ public class PoundToOunceConverter extends WeightConverter
   }
 
   public double simpleConvert(double inPounds) {
-    return inPounds * 16;
+    return inPounds * this.conversionFactor;
   }
 
   public double convert(double inPounds){
     if (this.base_conversion == null) {
-        return inPounds*16;
+        return inPounds * this.conversionFactor;
     } else {
-        return this.base_conversion.convert(inPounds) * 16;
+        return this.base_conversion.convert(inPounds) * this.conversionFactor;
     }
   }
 
@@ -39,11 +50,11 @@ public class PoundToOunceConverter extends WeightConverter
 
   public void convertAndPrint(double value) {
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " lb to " + this.convert(value) + " oz!");
+      System.out.println(this.toString() + " converted " + value + " lb to " + this.simpleConvert(value) + " oz!");
     } else {
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println("Then, " + this.toString() + " converted " + value + " lb to " + this.convert(value) + " oz!");
+      System.out.println(this.toString() + " converted " + value + " lb to " + this.simpleConvert(value) + " oz!");
     }
   }
 };

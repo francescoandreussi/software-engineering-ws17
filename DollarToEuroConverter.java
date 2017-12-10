@@ -1,13 +1,24 @@
 public class DollarToEuroConverter extends CurrencyConverter
 {
+  private double conversionFactor = 0.85;
+
   public DollarToEuroConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public DollarToEuroConverter(CurrencyConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter){
@@ -16,7 +27,7 @@ public class DollarToEuroConverter extends CurrencyConverter
     //System.out.println("Expected base_conversion class: " + mappingFunction.get(this.getClass()).toString());
     if(mappingFunction.get(this.getClass()).equals(convClass)){
       //System.out.println("LINKING...");
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -25,14 +36,14 @@ public class DollarToEuroConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inDollars) {
-    return inDollars * 0.85;
+    return inDollars * this.conversionFactor;
   }
 
   public double convert(double inDollars){
     if (this.base_conversion == null) {
-      return inDollars*0.85;
+      return inDollars * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inDollars) * 0.85;
+      return this.base_conversion.convert(inDollars) * this.conversionFactor;
     }
   }
 

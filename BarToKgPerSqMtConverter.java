@@ -1,19 +1,30 @@
 public class BarToKgPerSqMtConverter extends PressureConverter
 {
+  private double conversionFactor = 10197.162;
+
   public BarToKgPerSqMtConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public BarToKgPerSqMtConverter(PressureConverter converter){
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
     Class convClass = converter.getClass();
     if(mappingFunction.get(this.getClass()).equals(convClass)){
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -22,14 +33,14 @@ public class BarToKgPerSqMtConverter extends PressureConverter
   }
 
   public double simpleConvert(double inBars) {
-    return inBars * 10197.162;
+    return inBars * this.conversionFactor;
   }
 
   public double convert(double inBars){
     if (this.base_conversion == null) {
-      return inBars*10197.162;
+      return inBars * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inBars)*10197.162;
+      return this.base_conversion.convert(inBars) * this.conversionFactor;
     }
   }
 
@@ -39,11 +50,11 @@ public class BarToKgPerSqMtConverter extends PressureConverter
 
   public void convertAndPrint(double value) {
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " b to " + this.convert(value) + " kg/Sq.m!");
+      System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
     } else {
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println("Then, " + this.toString() + " converted " + value + " b to " + this.convert(value) + " kg/Sq.m!");
+      System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
     }
   }
 };

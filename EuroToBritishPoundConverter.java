@@ -1,13 +1,24 @@
 public class EuroToBritishPoundConverter extends CurrencyConverter
 {
+  private double conversionFactor = 0.87;
+
   public EuroToBritishPoundConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
   public EuroToBritishPoundConverter(CurrencyConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter){
@@ -16,7 +27,7 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
     //System.out.println("Expected base_conversion class: " + mappingFunction.get(this.getClass()).toString());
     if(mappingFunction.get(this.getClass()).equals(convClass)){
         //System.out.println("LINKING...");
-        base_conversion = converter;
+        this.base_conversion = converter;
     }
   }
 
@@ -25,14 +36,14 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inEuros) {
-    return inEuros * 0.87;
+    return inEuros * this.conversionFactor;
   }
 
   public double convert(double inEuros){
     if (this.base_conversion == null) {
-        return inEuros * 0.87;
+        return inEuros * this.conversionFactor;
     } else {
-        return this.base_conversion.convert(inEuros) * 0.87;
+        return this.base_conversion.convert(inEuros) * this.conversionFactor;
     }
   }
 

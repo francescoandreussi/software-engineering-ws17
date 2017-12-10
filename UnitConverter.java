@@ -12,6 +12,8 @@ public abstract class UnitConverter
   public UnitConverter base_conversion;
 
   public UnitConverter() { }
+  public abstract void setConversionFactor(double newFactor);
+  public abstract double getConversionFactor();
   public abstract void link(UnitConverter converter);
   public abstract UnitConverter clone();
   public abstract double simpleConvert(double inValue);

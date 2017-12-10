@@ -242,6 +242,24 @@ public class TestSuite {
     //test.convertAndPrint(1);
     assertEquals(1000.153, result, 0.001);
   }
+  @Test public static void inversion1() {
+    UnitConverter test = new Inversion(new OunceToGramConverter());
+    double result = test.convert(1);
+    //test.convertAndPrint(1);
+    assertEquals(0.035, result, 0.001);
+  }
+  @Test public static void inversion2() {
+    UnitConverter test = new Inversion(new PoundToOunceConverter(new OunceToGramConverter()));
+    double result = test.convert(100);
+    //test.convertAndPrint(100);
+    assertEquals(0.22, result, 0.001);
+  }
+  @Test public static void inversion3() {
+    UnitConverter test = new Inversion(new PoundToOunceConverter(new OunceToGramConverter()));
+    double result = test.convert(100);
+    //test.convertAndPrint(100);
+    assertEquals(0.22, result, 0.001);
+  }
   @Test public static void NumOfInstTest(){
     ConverterFactory factory1 = ConverterFactory.instance();
     ConverterFactory factory2 = ConverterFactory.instance();

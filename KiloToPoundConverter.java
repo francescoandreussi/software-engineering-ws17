@@ -1,19 +1,30 @@
 public class KiloToPoundConverter extends WeightConverter
 {
+  private double conversionFactor = 2.205;
+
   public KiloToPoundConverter() {
     super();
-    base_conversion = null;
+    this.base_conversion = null;
   }
 
-  public KiloToPoundConverter(UnitConverter converter) {
+  public KiloToPoundConverter(WeightConverter converter) {
     super();
-    base_conversion = converter;
+    // Assuming that the converter is correct
+    this.base_conversion = converter;
+  }
+
+  public void setConversionFactor(double newFactor) {
+    this.conversionFactor = newFactor;
+  }
+
+  public double getConversionFactor() {
+    return this.conversionFactor;
   }
 
   public void link(UnitConverter converter) {
     Class convClass = converter.getClass();
     if(mappingFunction.get(this.getClass()).equals(convClass)){
-      base_conversion = converter;
+      this.base_conversion = converter;
     }
   }
 
@@ -22,14 +33,14 @@ public class KiloToPoundConverter extends WeightConverter
   }
 
   public double simpleConvert(double inKilos) {
-    return inKilos * 2.205;
+    return inKilos * this.conversionFactor;
   }
 
   public double convert(double inKilos){
     if (this.base_conversion == null) {
-      return inKilos*2.205;
+      return inKilos * this.conversionFactor;
     } else {
-      return this.base_conversion.convert(inKilos) * 2.205;
+      return this.base_conversion.convert(inKilos) * this.conversionFactor;
     }
   }
 
@@ -39,11 +50,11 @@ public class KiloToPoundConverter extends WeightConverter
 
   public void convertAndPrint(double value) {
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " kg to " + this.convert(value) + " lb!");
+      System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
     } else {
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println("Then, " + this.toString() + " converted " + value + " kg to " + this.convert(value) + " lb!");
+      System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
     }
   }
 };
