@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 class Main {
     // NOT CORRECT! Will be modified during Part 2
-    private static UnitConverter chain(String[] converter) throws BadConversionStringException{
+    private static UnitConverter chain(String[] converter) throws BadConversionStringException, BadChainingException{
         int l = converter.length;
         //System.out.println("CHAINING..." + l);
         //System.out.println(Arrays.toString(converter));
@@ -68,13 +68,19 @@ class Main {
                 System.out.println("\t- BritishPoundToSwissFranc,");
                 System.out.println("\t- EuroToBritishPound,");
                 System.out.println("\t- AtmosphereToPascal,");
+                System.out.println("\t- PascalToBar,");
                 System.out.println("\t- BarToKilogramPerSquaredMeter,");
                 System.out.println("\t- KilogramToPound,");
-                System.out.println("\t- OunceToGram");
+                System.out.println("\t- PoundToOunce,");
+                System.out.println("\t- OunceToGram,");
+                System.out.println("\t- Inversion");
         }
         catch(NumberFormatException e){
             System.out.println("Unvalid second argument: " + e.getMessage() + "!");
             System.out.println("Please, write a valid real number");
+        }
+        catch(BadChainingException e){
+            System.out.println("Incorrect chaining: " + e.getMessage());
         }
     }
 }

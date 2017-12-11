@@ -22,7 +22,8 @@ public class ConverterFactory {
     // initializing prototypes list
     private static final UnitConverter s_prototypes[] = {  new DollarToEuroConverter(), new BritishPoundToSwissFrancConverter(), new EuroToBritishPoundConverter(),
                                             new AtmToPascalConverter(), new PascalToBarConverter(), new BarToKgPerSqMtConverter(),
-                                            new KiloToPoundConverter(), new PoundToOunceConverter(), new OunceToGramConverter() };
+                                            new KiloToPoundConverter(), new PoundToOunceConverter(), new OunceToGramConverter(),
+                                            new Inversion() };
 
     private static UnitConverter makeConverter(int choice) {
         return s_prototypes[choice].clone();
@@ -43,6 +44,7 @@ public class ConverterFactory {
             mappingFunction.put("KilogramToPound", 6);
             mappingFunction.put("PoundToOunce", 7);
             mappingFunction.put("OunceToGram", 8);
+            mappingFunction.put("Inversion", 9);
             // instancing the correct UnitConverter w.r.t. the input string. An exception is thrown if the string is not present in the HashMap
             // (it will be handled in the main)
             Integer choice = mappingFunction.get(conversion);

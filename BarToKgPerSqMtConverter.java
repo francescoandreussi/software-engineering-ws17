@@ -7,10 +7,17 @@ public class BarToKgPerSqMtConverter extends PressureConverter
     this.base_conversion = null;
   }
 
-  public BarToKgPerSqMtConverter(PressureConverter converter){
+  public BarToKgPerSqMtConverter(UnitConverter converter) throws BadChainingException {
     super();
-    // Assuming that the converter is correct
-    this.base_conversion = converter;
+    Class convClass = converter.getClass();
+    try {
+      if ((mappingFunction.get(convClass)).equals(this.getClass())) {
+        this.base_conversion = converter;
+      }
+    } catch (NullPointerException e) {
+      throw new BadChainingException(this.getClass().toString() + " must be chained to "
+          + mappingFunction.get(this.getClass()).toString() + " and not to " + convClass.toString());
+    }
   }
 
   public void setConversionFactor(double newFactor) {
@@ -21,10 +28,15 @@ public class BarToKgPerSqMtConverter extends PressureConverter
     return this.conversionFactor;
   }
 
-  public void link(UnitConverter converter) {
+  public void link(UnitConverter converter) throws BadChainingException {
     Class convClass = converter.getClass();
-    if(mappingFunction.get(this.getClass()).equals(convClass)){
-      this.base_conversion = converter;
+    try {
+      if (mappingFunction.get(this.getClass()).equals(convClass)) {
+        this.base_conversion = converter;
+      }
+    } catch (NullPointerException e) {
+      throw new BadChainingException(this.getClass().toString() + " must be chained to "
+          + mappingFunction.get(this.getClass()).toString() + " and not to " + convClass.toString());
     }
   }
 

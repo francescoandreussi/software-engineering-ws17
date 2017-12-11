@@ -7,10 +7,17 @@ public class DollarToEuroConverter extends CurrencyConverter
     this.base_conversion = null;
   }
 
-  public DollarToEuroConverter(CurrencyConverter converter) {
+  public DollarToEuroConverter(UnitConverter converter) throws BadChainingException {
     super();
-    // Assuming that the converter is correct
-    this.base_conversion = converter;
+    Class convClass = converter.getClass();
+    try {
+      if ((mappingFunction.get(convClass)).equals(this.getClass())) {
+        this.base_conversion = converter;
+      }
+    } catch (NullPointerException e) {
+      throw new BadChainingException(this.getClass().toString() + " must be chained to "
+          + mappingFunction.get(this.getClass()).toString() + " and not to " + convClass.toString());
+    }
   }
 
   public void setConversionFactor(double newFactor) {
@@ -21,13 +28,15 @@ public class DollarToEuroConverter extends CurrencyConverter
     return this.conversionFactor;
   }
 
-  public void link(UnitConverter converter){
+  public void link(UnitConverter converter) throws BadChainingException {
     Class convClass = converter.getClass();
-    //System.out.println("Real base_conversion class: " + convClass.toString());
-    //System.out.println("Expected base_conversion class: " + mappingFunction.get(this.getClass()).toString());
-    if(mappingFunction.get(this.getClass()).equals(convClass)){
-      //System.out.println("LINKING...");
-      this.base_conversion = converter;
+    try {
+      if (mappingFunction.get(this.getClass()).equals(convClass)) {
+        this.base_conversion = converter;
+      }
+    } catch (NullPointerException e) {
+      throw new BadChainingException(this.getClass().toString() + " must be chained to "
+          + mappingFunction.get(this.getClass()).toString() + " and not to " + convClass.toString());
     }
   }
 

@@ -219,46 +219,103 @@ public class TestSuite {
     }
   }
   @Test public static void chaining1() {
-    UnitConverter test = new EuroToBritishPoundConverter(new DollarToEuroConverter());
-    double result = test.convert(1);
-    //test.convertAndPrint(1);
-    assertEquals(0.7395, result, 0.001);
+    try{
+      UnitConverter test = new EuroToBritishPoundConverter(new DollarToEuroConverter());
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(0.7395, result, 0.001);
+    } catch(BadChainingException e){
+      fail();
+    }
   }
   @Test public static void chaining2() {
-    UnitConverter test = new BritishPoundToSwissFrancConverter(new EuroToBritishPoundConverter(new DollarToEuroConverter()));
-    double result = test.convert(1);
-    //test.convertAndPrint(1);
-    assertEquals(0.959, result, 0.001);
+    try{
+      UnitConverter test = new BritishPoundToSwissFrancConverter(new EuroToBritishPoundConverter(new DollarToEuroConverter()));
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(0.959, result, 0.001);
+    } catch (BadChainingException e) {
+      fail();
+    }
   }
   @Test public static void chaining3() {
-    UnitConverter test = new BarToKgPerSqMtConverter(new PascalToBarConverter(new AtmToPascalConverter()));
-    double result = test.convert(1);
-    //test.convertAndPrint(1);
-    assertEquals(10332.274, result, 0.001);
+    try{
+      UnitConverter test = new BarToKgPerSqMtConverter(new PascalToBarConverter(new AtmToPascalConverter()));
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(10332.274, result, 0.001);
+    } catch (BadChainingException e) {
+      fail();
+    }
+    catch(NullPointerException e){
+      System.out.println(e.toString());
+    }
   }
   @Test public static void chaining4() {
-    UnitConverter test = new KiloToPoundConverter(new PoundToOunceConverter(new OunceToGramConverter()));
+    try{
+      UnitConverter test = new OunceToGramConverter(new PoundToOunceConverter(new KiloToPoundConverter()));
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(1000.153, result, 0.001);
+    } catch (BadChainingException e) {
+      fail();
+    }
+  }
+  @Test public static void chainingExcpetion1() {
+    String expected = "class KiloToPoundConverter must be chained to class PoundToOunceConverter and not to class OunceToGramConverter";
+    String actual = "";
+    try{
+      UnitConverter test = new KiloToPoundConverter(new OunceToGramConverter());
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(1000.153, result, 0.001);
+    } catch (BadChainingException e) {
+      actual = e.getMessage();
+    }
+    if (!actual.equals(expected)) {
+      fail("expected: String<" + expected + "> but was String<" + actual + ">");
+    }
+  }
+  @Test public static void chainingExcpetion2() {
+    String expected = "class DollarToEuroConverter must be chained to class EuroToBritishPoundConverter and not to class KiloToPoundConverter";
+    String actual = "";
+    try{
+      UnitConverter test = new DollarToEuroConverter(new KiloToPoundConverter());
+      double result = test.convert(1);
+      //test.convertAndPrint(1);
+      assertEquals(1000.153, result, 0.001);
+    } catch (BadChainingException e) {
+      actual = e.getMessage();
+    }
+    if (!actual.equals(expected)) {
+      fail("expected: String<" + expected + "> but was String<" + actual + ">");
+    }
+  }
+  @Test public static void Inversion1() {
+    UnitConverter test = new Inversion(new DollarToEuroConverter());
     double result = test.convert(1);
     //test.convertAndPrint(1);
-    assertEquals(1000.153, result, 0.001);
+    assertEquals(1.176, result, 0.001);
   }
-  @Test public static void inversion1() {
-    UnitConverter test = new Inversion(new OunceToGramConverter());
-    double result = test.convert(1);
-    //test.convertAndPrint(1);
-    assertEquals(0.035, result, 0.001);
+  @Test public static void Inversion2() {
+    try{
+      UnitConverter test = new Inversion(new BarToKgPerSqMtConverter(new PascalToBarConverter()));
+      double result = test.convert(1);
+      //test.convertAndPrint(100);
+      assertEquals(9.807, result, 0.001);
+    } catch (BadChainingException e) {
+      fail();
+    }
   }
-  @Test public static void inversion2() {
-    UnitConverter test = new Inversion(new PoundToOunceConverter(new OunceToGramConverter()));
-    double result = test.convert(100);
-    //test.convertAndPrint(100);
-    assertEquals(0.22, result, 0.001);
-  }
-  @Test public static void inversion3() {
-    UnitConverter test = new Inversion(new PoundToOunceConverter(new OunceToGramConverter()));
-    double result = test.convert(100);
-    //test.convertAndPrint(100);
-    assertEquals(0.22, result, 0.001);
+  @Test public static void Inversion3() {
+    try{
+      UnitConverter test = new Inversion(new OunceToGramConverter(new PoundToOunceConverter(new KiloToPoundConverter())));
+      double result = test.convert(100);
+      //test.convertAndPrint(100);
+      assertEquals(0.1, result, 0.001);
+    } catch (BadChainingException e) {
+      fail();
+    }
   }
   @Test public static void NumOfInstTest(){
     ConverterFactory factory1 = ConverterFactory.instance();

@@ -37,7 +37,7 @@ public class Inversion extends UnitConverter {
     }
 
     private void invertConversion(UnitConverter converter){
-        if (converter.base_conversion == null) {
+        if (converter.base_conversion == null) { // if the converter chain has only one element
             converter.setConversionFactor(1.0 / converter.getConversionFactor());
         } else {
             converter.setConversionFactor(1.0 / converter.getConversionFactor());

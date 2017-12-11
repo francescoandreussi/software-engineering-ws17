@@ -14,7 +14,7 @@ public abstract class UnitConverter
   public UnitConverter() { }
   public abstract void setConversionFactor(double newFactor);
   public abstract double getConversionFactor();
-  public abstract void link(UnitConverter converter);
+  public abstract void link(UnitConverter converter) throws BadChainingException;
   public abstract UnitConverter clone();
   public abstract double simpleConvert(double inValue);
   public abstract double convert(double inValue);
