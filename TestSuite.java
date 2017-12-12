@@ -183,7 +183,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest1(){
-    String expected = "The first argument is not a valid conversion string!";
+    String expected = "The last converter is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("NonCompliantString");
@@ -195,7 +195,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest2(){
-    String expected = "The first argument is not a valid conversion string!";
+    String expected = "The last converter is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("");
@@ -207,7 +207,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest3(){
-    String expected = "The first argument is not a valid conversion string!";
+    String expected = "The last converter is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("OunceToGram25.96");

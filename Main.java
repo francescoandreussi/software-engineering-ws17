@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Scanner;
+import java.util.LinkedList;
 
 class Main {
     // NOT CORRECT! Will be modified during Part 2
@@ -28,19 +30,19 @@ class Main {
     public static void main(String[] args)  // NOT CORRECT! Will be adapted for Part 2
     {
         try{
-            if(args.length < 2){
+            //if(args.length < 2){
                 //if the command line call does not have two args throws an Exception to avoid an out-of-bounds-reading
-                throw new NumberOfArgsException("Main requires at least 2 arguments!");
-            }
+                //throw new NumberOfArgsException("Main requires at least 2 arguments!");
+            //}
 
-            String value = args[args.length - 1];
-            String converter[] = Arrays.copyOf(args, args.length - 1);
+            //String value = args[args.length - 1];
+            //String converter[] = Arrays.copyOf(args, args.length - 1);
             //System.out.println(Arrays.toString(converter));
 
             //Double.parseDouble function was copied from
             //https://stackoverflow.com/questions/5769669/convert-string-to-double-in-java.
             //It converts a string into a double, if the string is invalid it thorws a NumberFormatException
-            double realValue = Double.parseDouble(value); 
+            //double realValue = Double.parseDouble(value); 
 
             //String outputString = "Passing " + realValue + " through";
             /*for (int i = 0; i < args.length - 2; i++) {
@@ -51,16 +53,51 @@ class Main {
                 converter.convertAndPrint(realValue);
                 realValue = converter.convert(realValue);
             }*/
-            UnitConverter completeConversion = chain(converter);
+            //UnitConverter completeConversion = chain(converter);
             //System.out.println("FIRST CALLED CONV: " + completeConversion.getClass().toString());
-            completeConversion.convertAndPrint(realValue);
+            //completeConversion.convertAndPrint(realValue);
             //outputString += " now the final value is " + realValue;
             //System.out.println(outputString);
+
+            LinkedList<Command> conversionList = new LinkedList<Command>();
+            LinkedList<String> inputList = new LinkedList<String>();
+            Scanner scan = new Scanner(System.in);
+            while (scan.hasNext()) {
+                String s = scan.next();
+                inputList.add(s);
+            }
+            double value = Double.parseDouble(inputList.removeLast());
+            if (inputList.getFirst().equals("Inversion")) {
+                inputList.removeFirst();
+                int size = inputList.size();
+                System.out.println(size);
+                for (int i = 0; i < (size / 2); i++){   // Reversing the inputList
+                    String tmp = inputList.remove(size -1- i);
+                    inputList.add(size -1- i, inputList.remove(i));
+                    inputList.add(i, tmp);
+                }
+            }
+            for (String input : inputList) {
+                UnitConverter converter = ConverterFactory.create(input);
+                Command nextConverter;
+                if (input.equals(inputList.getFirst())) {
+                    nextConverter = new Command(converter, value);
+                } else {
+                    // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
+                    UnitConverter previousConverter = conversionList.getLast().getConverter();
+                    double previousValue = conversionList.getLast().getValue();
+                    nextConverter = new Command(converter, previousConverter.simpleConvert(previousValue));
+                }
+                conversionList.add(nextConverter);
+            }
+            for (Command conversion : conversionList) {
+                conversion.execute();
+            }
         }
-        catch(NumberOfArgsException e){
+        /* catch(NumberOfArgsException e){
             System.out.println(e.getMessage());
             System.out.println("Use of Main function: java Main <type-of-conversion> <real-number>");
-        }
+        } */
         catch(BadConversionStringException e){
             System.out.println(e.getMessage());
             System.out.println("The available conversions are:");
@@ -76,11 +113,11 @@ class Main {
                 System.out.println("\t- Inversion");
         }
         catch(NumberFormatException e){
-            System.out.println("Unvalid second argument: " + e.getMessage() + "!");
+            System.out.println("Invalid last argument: " + e.getMessage() + "!");
             System.out.println("Please, write a valid real number");
         }
-        catch(BadChainingException e){
+        /* catch(BadChainingException e){
             System.out.println("Incorrect chaining: " + e.getMessage());
-        }
+        } */
     }
 }
