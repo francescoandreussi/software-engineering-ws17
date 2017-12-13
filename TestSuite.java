@@ -292,16 +292,20 @@ public class TestSuite {
     }
   }
   @Test public static void Inversion1() {
-    UnitConverter test = new Inversion(new DollarToEuroConverter());
-    double result = test.convert(1);
-    //test.convertAndPrint(1);
-    assertEquals(1.176, result, 0.001);
+    try{
+      UnitConverter test = new Inversion(new DollarToEuroConverter());
+      double result = test.convert(1);
+      // Missing an adequate convertAndPrint for this case
+      assertEquals(1.176, result, 0.001);
+    } catch (BadChainingException e){
+      fail();
+    }
   }
   @Test public static void Inversion2() {
     try{
       UnitConverter test = new Inversion(new BarToKgPerSqMtConverter(new PascalToBarConverter()));
       double result = test.convert(1);
-      //test.convertAndPrint(100);
+      // Missing an adequate convertAndPrint for this case
       assertEquals(9.807, result, 0.001);
     } catch (BadChainingException e) {
       fail();
@@ -311,7 +315,7 @@ public class TestSuite {
     try{
       UnitConverter test = new Inversion(new OunceToGramConverter(new PoundToOunceConverter(new KiloToPoundConverter())));
       double result = test.convert(100);
-      //test.convertAndPrint(100);
+      // Missing an adequate convertAndPrint for this case
       assertEquals(0.1, result, 0.001);
     } catch (BadChainingException e) {
       fail();

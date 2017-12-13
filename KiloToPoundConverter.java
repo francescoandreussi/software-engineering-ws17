@@ -1,5 +1,6 @@
 public class KiloToPoundConverter extends WeightConverter
 {
+  public final double originalConversionFactor = 2.205; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 2.205;
 
   public KiloToPoundConverter() {
@@ -30,6 +31,10 @@ public class KiloToPoundConverter extends WeightConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {

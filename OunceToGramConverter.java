@@ -1,5 +1,6 @@
 public class OunceToGramConverter extends WeightConverter
 {
+  public final double originalConversionFactor = 28.349; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 28.349;
 
   public OunceToGramConverter() {
@@ -30,6 +31,10 @@ public class OunceToGramConverter extends WeightConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {
@@ -70,7 +75,6 @@ public class OunceToGramConverter extends WeightConverter
       //System.out.println("caso base convertAndPrint OunceToGram");
       System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
     } else {
-      //System.out.println("caso generico convertAndPrint OunceToGram");
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
       System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");

@@ -11,8 +11,12 @@ public class Inversion extends UnitConverter {
         this.base_conversion = null;
     }
 
-    public Inversion(UnitConverter converter) {
-        this.base_conversion = converter;
+    public Inversion(UnitConverter converter) throws BadChainingException {
+        if (! converter.toString().equals("Inversion")) { // Checking that converter is NOT an instance of Inversion
+            this.base_conversion = converter;
+        } else {
+            throw new BadChainingException("chaining two Inversion objects is NOT possible!");
+        }
     }
 
     public UnitConverter getBaseConverter() {
@@ -28,13 +32,17 @@ public class Inversion extends UnitConverter {
     public double getConversionFactor() {
         return 0.0;
     }
+    
+    public double getOriginalConversionFactor() {
+        return 0.0;
+    }
 
     public void link(UnitConverter converter) {
         this.base_conversion = converter;
     }
 
     public UnitConverter clone() {
-        return new Inversion(null);
+        return new Inversion();
     }
 
     public double simpleConvert(double inValue){
@@ -45,13 +53,14 @@ public class Inversion extends UnitConverter {
         return "Inversion";
     }
 
+
     private void invertConversion(UnitConverter converter){
         if (converter.base_conversion == null) { // if the converter chain has only one element
-            converter.setConversionFactor(1.0 / converter.getConversionFactor());
-        } else {
-            converter.setConversionFactor(1.0 / converter.getConversionFactor());
-            invertConversion(converter.base_conversion);
-        }
+                converter.setConversionFactor(1.0 / converter.getConversionFactor());
+            } else {
+                converter.setConversionFactor(1.0 / converter.getConversionFactor());
+                invertConversion(converter.base_conversion);
+            }
     }
 
     public double convert(double inValue){
@@ -75,17 +84,16 @@ public class Inversion extends UnitConverter {
             }
             outString += outLine + "\n";
         }
-        //String word[] = conversionString.split(" ");
-        //String outputString = word[2];
-        //word[2] = word[0];
-        //for (int i = 1; i < word.length; i++) {
-        //    outputString += " " + word[i];
-        //}
         return outString.trim();
     }
 
+    // IMPORTANT: this Inversion.convertAndPrint should be called only from instances of Command or of Inversion itself!
     public void convertAndPrint(double value){
-        //this.invertConversion(this.base_conversion);
+        if (this.base_conversion.getConversionFactor() == this.base_conversion.getOriginalConversionFactor()) {
+            invertConversion(this.base_conversion);
+        } else {
+        }
+
         // This function is based on the code found at this link:
         // https://stackoverflow.com/questions/8708342/redirect-console-output-to-string-in-java
 
@@ -97,7 +105,6 @@ public class Inversion extends UnitConverter {
         // Tell Java to use your special stream
         System.setOut(ps);
         // Print some output: goes to your special stream
-        //this.invertConversion(this.base_conversion);
         base_conversion.convertAndPrint(value);
         // Put things back
         System.out.flush();

@@ -1,5 +1,6 @@
 public class EuroToBritishPoundConverter extends CurrencyConverter
 {
+  public final double originalConversionFactor = 0.87; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 0.87;
 
   public EuroToBritishPoundConverter() {
@@ -30,6 +31,10 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {
@@ -69,7 +74,6 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
         //System.out.println("BASE CONV OF Euro to Pound: null");
         System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
     } else {
-        //System.out.println("BASE CONV OF Euro to Pound: " + this.base_conversion.toString());
         this.base_conversion.convertAndPrint(value);
         value = this.base_conversion.convert(value);
         System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");

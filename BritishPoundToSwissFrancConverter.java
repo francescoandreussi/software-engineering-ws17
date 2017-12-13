@@ -1,5 +1,6 @@
 public class BritishPoundToSwissFrancConverter extends CurrencyConverter
 {
+  private final double originalConversionFactor = 1.297; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 1.297;
 
   public BritishPoundToSwissFrancConverter() {
@@ -31,6 +32,10 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException{
@@ -71,10 +76,8 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
 
   public void convertAndPrint(double value) {
     if (this.base_conversion == null) {
-      //System.out.println("BASE CONV OF Pound to Franc: null");
       System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
     } else {
-      //System.out.println("BASE CONV OF Pound to Franc: " + this.base_conversion.toString());
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
       System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");

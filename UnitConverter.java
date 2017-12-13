@@ -18,6 +18,7 @@ public abstract class UnitConverter
   public abstract HashMap<Class,Class> getMap();
   public abstract void setConversionFactor(double newFactor);
   public abstract double getConversionFactor();
+  public abstract double getOriginalConversionFactor();
   public abstract void link(UnitConverter converter) throws BadChainingException;
   public abstract UnitConverter clone();
   public abstract double simpleConvert(double inValue);

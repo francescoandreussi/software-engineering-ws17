@@ -1,5 +1,6 @@
 public class PascalToBarConverter extends PressureConverter
 {
+  public final double originalConversionFactor = 0.00001; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 0.00001;
 
   public PascalToBarConverter() {
@@ -30,6 +31,10 @@ public class PascalToBarConverter extends PressureConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {
@@ -66,11 +71,11 @@ public class PascalToBarConverter extends PressureConverter
 
   public void convertAndPrint(double value){
     if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " Atm to " + this.simpleConvert(value) + " Pa!");
+      System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
     } else {
       this.base_conversion.convertAndPrint(value);
       value = this.base_conversion.convert(value);
-      System.out.println(this.toString() + " converted " + value + " Atm to " + this.simpleConvert(value) + " Pa!");
+      System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
     }
   }
 };

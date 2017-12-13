@@ -1,5 +1,6 @@
 public class BarToKgPerSqMtConverter extends PressureConverter
 {
+  public final double originalConversionFactor = 10197.162; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 10197.162;
 
   public BarToKgPerSqMtConverter() {
@@ -30,6 +31,10 @@ public class BarToKgPerSqMtConverter extends PressureConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {
@@ -68,9 +73,9 @@ public class BarToKgPerSqMtConverter extends PressureConverter
     if (this.base_conversion == null) {
       System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
     } else {
-      this.base_conversion.convertAndPrint(value);
-      value = this.base_conversion.convert(value);
       System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
+      value = this.base_conversion.convert(value);
+      this.base_conversion.convertAndPrint(value);
     }
   }
 };

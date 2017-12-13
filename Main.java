@@ -64,7 +64,6 @@ class Main {
             if (isInverted) {
                 for (String input : inputList) {
                     UnitConverter converter = ConverterFactory.create(input);
-                    System.out.println("converter = " + converter.toString());
                     Command nextConverter;
                     if (input.equals(inputList.getFirst())) { // The first element needs the typed value
                         Inversion invertedConversion = new Inversion(converter);
@@ -74,16 +73,19 @@ class Main {
                         // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
                         // But the type returned by getConverter is Inversion, so it is essential to get the base_conversion of the Inversion
                         UnitConverter previousConverter = conversionList.getLast().getConverter();
-                        System.out.println("previousConverter = " + previousConverter.toString());
                         double previousValue = conversionList.getLast().getValue();
-                        if (converterMapping.get(converter.getClass()).equals(previousConverter.getBaseConverter().getClass())) {
-                            Inversion invertedConversion = new Inversion(converter);
-                            invertedConversion.simpleConvert(0); // Hack to balance side effects of inverted conversions (we know that's ugly)
-                            nextConverter = new Command(invertedConversion, previousConverter.simpleConvert(previousValue));
-                        } else {
-                            throw new BadChainingException(converter.getClass().toString() + " must be chained to "
-                                + converterMapping.get(converter.getClass()).toString() + " and not to "
-                                + previousConverter.getClass().toString());
+                        try{
+                            if (converterMapping.get(converter.getClass()).equals(previousConverter.getBaseConverter().getClass())) {
+                                Inversion invertedConversion = new Inversion(converter);
+                                //invertedConversion.simpleConvert(0); // Hack to balance side effects of inverted conversions (we know that's ugly)
+                                nextConverter = new Command(invertedConversion, previousConverter.simpleConvert(previousValue));
+                            } else {
+                                throw new BadChainingException(converter.getClass().toString() + " must be chained to "
+                                    + converterMapping.get(converter.getClass()).toString() + " and not to "
+                                    + previousConverter.getClass().toString());
+                            }
+                        } catch (NullPointerException e){
+                            throw new BadChainingException("\"Inversion\" can be ONLY the first typed element!");
                         }
                     }
                     conversionList.add(nextConverter);

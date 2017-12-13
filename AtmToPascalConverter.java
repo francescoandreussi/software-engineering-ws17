@@ -1,5 +1,6 @@
 public class AtmToPascalConverter extends PressureConverter
 {
+  public final double originalConversionFactor = 101325.0; // Needs to check whether conversionFactor is inverted or not
   private double conversionFactor = 101325.0;
 
   public AtmToPascalConverter() {
@@ -30,6 +31,10 @@ public class AtmToPascalConverter extends PressureConverter
 
   public double getConversionFactor() {
     return this.conversionFactor;
+  }
+  
+  public double getOriginalConversionFactor() {
+    return this.originalConversionFactor;
   }
 
   public void link(UnitConverter converter) throws BadChainingException {
