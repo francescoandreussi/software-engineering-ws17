@@ -47,21 +47,19 @@ class Main {
             // https://stackoverflow.com/questions/5769669/convert-string-to-double-in-java.
             // It converts a string into a double, if the string is invalid it thorws a NumberFormatException
             double value = Double.parseDouble(inputList.removeLast());
+            
+            // EXERCISE 5 - PART 2
             // Detecting if the conversion sequence is inverted
-            System.out.println("inputList1 " + inputList.toString());
             if (inputList.getFirst().equals("Inversion")) {
                 isInverted = true;
                 inputList.removeFirst();
-                System.out.println("inputList2 " + inputList.toString());
                 LinkedList<String> supportList = new LinkedList<String>();
                 for (String input : inputList) { // Creating a reversed list
                     supportList.addFirst(input);                    
                 }
                 inputList.clear();
                 inputList = supportList; // Replacing the previous list with the reversed one
-                System.out.println("inputList3 " + inputList.toString());
             }
-            System.out.println("isInverted " + isInverted);
             // Setting up the sequence of conversion
             if (isInverted) {
                 for (String input : inputList) {
@@ -115,6 +113,7 @@ class Main {
             for (Command conversion : conversionList) {
                 conversion.execute();
             }
+
         }
         catch(BadConversionStringException e){
             System.out.println(e.getMessage());
