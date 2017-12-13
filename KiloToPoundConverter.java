@@ -20,6 +20,10 @@ public class KiloToPoundConverter extends WeightConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public void setConversionFactor(double newFactor) {
     this.conversionFactor = newFactor;
   }

@@ -21,6 +21,10 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public void setConversionFactor(double newFactor){
     this.conversionFactor = newFactor;
   }
@@ -62,7 +66,7 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
   }
 
   public String toString(){
-    return "British Pound to Swiss Franc Converter";
+    return "British-Pound to Swiss-Franc Converter";
   }
 
   public void convertAndPrint(double value) {

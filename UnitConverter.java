@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /** This is the Superclass of every Converter class, it defines the methods to be implemented
 *   convert method: it actually performs the conversion,
 *                   it handle overflows returning Infinity or -Infinity,
@@ -12,6 +14,8 @@ public abstract class UnitConverter
   public UnitConverter base_conversion;
 
   public UnitConverter() { }
+  public abstract UnitConverter getBaseConverter();
+  public abstract HashMap<Class,Class> getMap();
   public abstract void setConversionFactor(double newFactor);
   public abstract double getConversionFactor();
   public abstract void link(UnitConverter converter) throws BadChainingException;

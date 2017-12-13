@@ -20,6 +20,10 @@ public class AtmToPascalConverter extends PressureConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public void setConversionFactor(double newFactor) {
     this.conversionFactor = newFactor;
   }

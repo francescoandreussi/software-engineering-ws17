@@ -20,6 +20,10 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public void setConversionFactor(double newFactor) {
     this.conversionFactor = newFactor;
   }
@@ -57,7 +61,7 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
   }
 
   public String toString(){
-    return "Euro to British Pound Converter";
+    return "Euro to British-Pound Converter";
   }
 
   public void convertAndPrint(double value) {

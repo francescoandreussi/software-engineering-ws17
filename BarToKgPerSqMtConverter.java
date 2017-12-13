@@ -20,6 +20,10 @@ public class BarToKgPerSqMtConverter extends PressureConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public void setConversionFactor(double newFactor) {
     this.conversionFactor = newFactor;
   }
@@ -57,7 +61,7 @@ public class BarToKgPerSqMtConverter extends PressureConverter
   }
 
   public String toString(){
-    return "Bar to Kilogram per Squared Meter Converter";
+    return "Bar to Kilogram-per-Squared-Meter Converter";
   }
 
   public void convertAndPrint(double value) {

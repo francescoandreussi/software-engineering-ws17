@@ -40,6 +40,10 @@ public class DollarToEuroConverter extends CurrencyConverter
     }
   }
 
+  public UnitConverter getBaseConverter() {
+    return base_conversion;
+  }
+
   public DollarToEuroConverter clone() {
     return new DollarToEuroConverter();
   }

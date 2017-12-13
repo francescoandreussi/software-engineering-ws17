@@ -1,5 +1,6 @@
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 
 // IMPORTANT: the Inversion decorator must be the outermost element of the chain
 // and it can invert the whole chain!
@@ -12,6 +13,14 @@ public class Inversion extends UnitConverter {
 
     public Inversion(UnitConverter converter) {
         this.base_conversion = converter;
+    }
+
+    public UnitConverter getBaseConverter() {
+        return base_conversion;
+    }
+
+    public HashMap<Class, Class> getMap() {
+        return null;
     }
 
     public void setConversionFactor(double newFactor) { }
@@ -88,6 +97,7 @@ public class Inversion extends UnitConverter {
         // Tell Java to use your special stream
         System.setOut(ps);
         // Print some output: goes to your special stream
+        //this.invertConversion(this.base_conversion);
         base_conversion.convertAndPrint(value);
         // Put things back
         System.out.flush();

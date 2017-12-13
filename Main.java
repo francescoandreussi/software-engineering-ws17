@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.LinkedList;
 
@@ -30,74 +31,91 @@ class Main {
     public static void main(String[] args)  // NOT CORRECT! Will be adapted for Part 2
     {
         try{
-            //if(args.length < 2){
-                //if the command line call does not have two args throws an Exception to avoid an out-of-bounds-reading
-                //throw new NumberOfArgsException("Main requires at least 2 arguments!");
-            //}
-
-            //String value = args[args.length - 1];
-            //String converter[] = Arrays.copyOf(args, args.length - 1);
-            //System.out.println(Arrays.toString(converter));
-
-            //Double.parseDouble function was copied from
-            //https://stackoverflow.com/questions/5769669/convert-string-to-double-in-java.
-            //It converts a string into a double, if the string is invalid it thorws a NumberFormatException
-            //double realValue = Double.parseDouble(value); 
-
-            //String outputString = "Passing " + realValue + " through";
-            /*for (int i = 0; i < args.length - 2; i++) {
-                String conversion = args[i];
-                UnitConverter externalConverter = ConverterFactory.create(conversion);
-                UnitConverter innerConverter = ConverterFactory.create(conversion);
-                outputString += " " + converter.toString() + " and";
-                converter.convertAndPrint(realValue);
-                realValue = converter.convert(realValue);
-            }*/
-            //UnitConverter completeConversion = chain(converter);
-            //System.out.println("FIRST CALLED CONV: " + completeConversion.getClass().toString());
-            //completeConversion.convertAndPrint(realValue);
-            //outputString += " now the final value is " + realValue;
-            //System.out.println(outputString);
-
+            // Creating a "global" HashMap. It will be used to check the correctness of the conversion sequence
             LinkedList<Command> conversionList = new LinkedList<Command>();
             LinkedList<String> inputList = new LinkedList<String>();
+            boolean isInverted = false;
+            // Scanning cycle
             Scanner scan = new Scanner(System.in);
             while (scan.hasNext()) {
                 String s = scan.next();
                 inputList.add(s);
             }
+            scan.close();
+            // Parsing the last element (that should be a double)
+            // Double.parseDouble function was copied from
+            // https://stackoverflow.com/questions/5769669/convert-string-to-double-in-java.
+            // It converts a string into a double, if the string is invalid it thorws a NumberFormatException
             double value = Double.parseDouble(inputList.removeLast());
+            // Detecting if the conversion sequence is inverted
+            System.out.println("inputList1 " + inputList.toString());
             if (inputList.getFirst().equals("Inversion")) {
+                isInverted = true;
                 inputList.removeFirst();
-                int size = inputList.size();
-                System.out.println(size);
-                for (int i = 0; i < (size / 2); i++){   // Reversing the inputList
-                    String tmp = inputList.remove(size -1- i);
-                    inputList.add(size -1- i, inputList.remove(i));
-                    inputList.add(i, tmp);
+                System.out.println("inputList2 " + inputList.toString());
+                LinkedList<String> supportList = new LinkedList<String>();
+                for (String input : inputList) { // Creating a reversed list
+                    supportList.addFirst(input);                    
                 }
+                inputList.clear();
+                inputList = supportList; // Replacing the previous list with the reversed one
+                System.out.println("inputList3 " + inputList.toString());
             }
-            for (String input : inputList) {
-                UnitConverter converter = ConverterFactory.create(input);
-                Command nextConverter;
-                if (input.equals(inputList.getFirst())) {
-                    nextConverter = new Command(converter, value);
-                } else {
-                    // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
-                    UnitConverter previousConverter = conversionList.getLast().getConverter();
-                    double previousValue = conversionList.getLast().getValue();
-                    nextConverter = new Command(converter, previousConverter.simpleConvert(previousValue));
+            System.out.println("isInverted " + isInverted);
+            // Setting up the sequence of conversion
+            if (isInverted) {
+                for (String input : inputList) {
+                    UnitConverter converter = ConverterFactory.create(input);
+                    System.out.println("converter = " + converter.toString());
+                    Command nextConverter;
+                    if (input.equals(inputList.getFirst())) { // The first element needs the typed value
+                        Inversion invertedConversion = new Inversion(converter);
+                        nextConverter = new Command(invertedConversion, value);
+                    } else { // The others need the processed (from the previous converters) value 
+                        HashMap<Class, Class> converterMapping = converter.getMap();
+                        // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
+                        // But the type returned by getConverter is Inversion, so it is essential to get the base_conversion of the Inversion
+                        UnitConverter previousConverter = conversionList.getLast().getConverter();
+                        System.out.println("previousConverter = " + previousConverter.toString());
+                        double previousValue = conversionList.getLast().getValue();
+                        if (converterMapping.get(converter.getClass()).equals(previousConverter.getBaseConverter().getClass())) {
+                            Inversion invertedConversion = new Inversion(converter);
+                            invertedConversion.simpleConvert(0); // Hack to balance side effects of inverted conversions (we know that's ugly)
+                            nextConverter = new Command(invertedConversion, previousConverter.simpleConvert(previousValue));
+                        } else {
+                            throw new BadChainingException(converter.getClass().toString() + " must be chained to "
+                                + converterMapping.get(converter.getClass()).toString() + " and not to "
+                                + previousConverter.getClass().toString());
+                        }
+                    }
+                    conversionList.add(nextConverter);
                 }
-                conversionList.add(nextConverter);
+            } else {
+                for (String input : inputList) {
+                    UnitConverter converter = ConverterFactory.create(input);
+                    Command nextConverter;
+                    if (input.equals(inputList.getFirst())) { // The first element needs the typed value
+                        nextConverter = new Command(converter, value);
+                    } else { // The others need the processed (from the previous converters) value
+                        // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
+                        UnitConverter previousConverter = conversionList.getLast().getConverter();
+                        HashMap<Class, Class> prevConverterMapping = previousConverter.getMap();
+                        double previousValue = conversionList.getLast().getValue();
+                        if (prevConverterMapping.get(previousConverter.getClass()).equals(converter.getClass())) {
+                            nextConverter = new Command(converter, previousConverter.simpleConvert(previousValue));
+                        } else {
+                            throw new BadChainingException(previousConverter.getClass().toString() + " must be chained to "
+                                    + prevConverterMapping.get(previousConverter.getClass()).toString() + " and not to "
+                                    + converter.getClass().toString());
+                        }
+                    }
+                    conversionList.add(nextConverter);
+                }
             }
             for (Command conversion : conversionList) {
                 conversion.execute();
             }
         }
-        /* catch(NumberOfArgsException e){
-            System.out.println(e.getMessage());
-            System.out.println("Use of Main function: java Main <type-of-conversion> <real-number>");
-        } */
         catch(BadConversionStringException e){
             System.out.println(e.getMessage());
             System.out.println("The available conversions are:");
@@ -116,8 +134,8 @@ class Main {
             System.out.println("Invalid last argument: " + e.getMessage() + "!");
             System.out.println("Please, write a valid real number");
         }
-        /* catch(BadChainingException e){
+        catch(BadChainingException e){
             System.out.println("Incorrect chaining: " + e.getMessage());
-        } */
+        }
     }
 }
