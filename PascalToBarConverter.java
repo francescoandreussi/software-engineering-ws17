@@ -69,13 +69,19 @@ public class PascalToBarConverter extends PressureConverter
     return "Pascal to Bar Converter";
   }
 
-  public void convertAndPrint(double value){
+  public void convertAndPrint(double value, boolean isInverted){
     if (this.base_conversion == null) {
       System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
     } else {
-      this.base_conversion.convertAndPrint(value);
-      value = this.base_conversion.convert(value);
-      System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
+      if (isInverted) {
+        System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
+        value = this.simpleConvert(value);
+        this.base_conversion.convertAndPrint(value, isInverted);
+      } else {
+        this.base_conversion.convertAndPrint(value, isInverted);
+        value = this.base_conversion.convert(value);
+        System.out.println(this.toString() + " converted " + value + " Pa to " + this.simpleConvert(value) + " b!");
+      }
     }
   }
 };

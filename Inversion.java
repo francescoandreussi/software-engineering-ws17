@@ -88,7 +88,7 @@ public class Inversion extends UnitConverter {
     }
 
     // IMPORTANT: this Inversion.convertAndPrint should be called only from instances of Command or of Inversion itself!
-    public void convertAndPrint(double value){
+    public void convertAndPrint(double value, boolean isInverted){
         if (this.base_conversion.getConversionFactor() == this.base_conversion.getOriginalConversionFactor()) {
             invertConversion(this.base_conversion);
         } else {
@@ -105,7 +105,7 @@ public class Inversion extends UnitConverter {
         // Tell Java to use your special stream
         System.setOut(ps);
         // Print some output: goes to your special stream
-        base_conversion.convertAndPrint(value);
+        base_conversion.convertAndPrint(value, isInverted);
         // Put things back
         System.out.flush();
         System.setOut(old);

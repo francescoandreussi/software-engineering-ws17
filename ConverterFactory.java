@@ -52,7 +52,7 @@ public class ConverterFactory {
             return converter;
         }
         catch(NullPointerException e){
-            throw new BadConversionStringException("The last converter is invalid!");
+            throw new BadConversionStringException("The string " + conversion + " is invalid!");
         }
     }
 

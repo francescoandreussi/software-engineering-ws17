@@ -24,6 +24,6 @@ public abstract class UnitConverter
   public abstract double simpleConvert(double inValue);
   public abstract double convert(double inValue);
   public abstract String toString();
-  public abstract void convertAndPrint(double value);
+  public abstract void convertAndPrint(double value, boolean isInverted);
 };
 

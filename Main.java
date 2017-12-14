@@ -4,32 +4,14 @@ import java.util.Scanner;
 import java.util.LinkedList;
 
 class Main {
-    // NOT CORRECT! Will be modified during Part 2
-    private static UnitConverter chain(String[] converter) throws BadConversionStringException, BadChainingException{
-        int l = converter.length;
-        //System.out.println("CHAINING..." + l);
-        //System.out.println(Arrays.toString(converter));
-        if(l == 1){
-            return ConverterFactory.create(converter[0]);
-        } else if(l == 2){
-            UnitConverter firstConverter = ConverterFactory.create(converter[0]);
-            //System.out.println("first Conv " + firstConverter.toString());
-            UnitConverter secondConverter = ConverterFactory.create(converter[1]);
-            //System.out.println("second Conv " + secondConverter.toString());
-            firstConverter.link(secondConverter);
-            return firstConverter;
-        } else {
-            UnitConverter nextConverters = chain(Arrays.copyOfRange(converter, 1, l));
-            //System.out.println("Next converter outermost type: " + nextConverters.toString());
-            UnitConverter firstConverter = ConverterFactory.create(converter[0]);
-            //System.out.println("First converter type: " + firstConverter.toString());
-            firstConverter.link(nextConverters);
-            return firstConverter;
-        }
-    }
-
-    public static void main(String[] args)  // NOT CORRECT! Will be adapted for Part 2
+    public static void main(String[] args)
     {
+        System.out.println("Hi, I am your Conversion Application!");
+        System.out.println("To let me work properly type your input in this way:");
+            System.out.println("\tInversion (optional)");
+            System.out.println("\tOne conversion per line... in a consistent way:)");
+            System.out.println("\tA real number");
+            System.out.println("\tFinally, press Ctrl-D to run the conversion! Enjoy your conversions!:)");
         try{
             // Creating a "global" HashMap. It will be used to check the correctness of the conversion sequence
             LinkedList<Command> conversionList = new LinkedList<Command>();
@@ -42,6 +24,10 @@ class Main {
                 inputList.add(s);
             }
             scan.close();
+
+            if (inputList.isEmpty()) { // Checking if the input is empty, preventing the program to throw NoSuchElementException that is no handled
+                throw new BadChainingException("no founded conversion! Please, type at least one conversion to perform!");
+            }
             // Parsing the last element (that should be a double)
             // Double.parseDouble function was copied from
             // https://stackoverflow.com/questions/5769669/convert-string-to-double-in-java.
@@ -50,6 +36,9 @@ class Main {
             
             // EXERCISE 5 - PART 2
             // Detecting if the conversion sequence is inverted
+            if (inputList.isEmpty()) { // Checking if the input is empty, preventing the program to throw NoSuchElementException that is no handled
+                throw new BadChainingException("no founded conversion! Please, type at least one conversion to perform!");
+            }
             if (inputList.getFirst().equals("Inversion")) {
                 isInverted = true;
                 inputList.removeFirst();
@@ -60,12 +49,16 @@ class Main {
                 inputList.clear();
                 inputList = supportList; // Replacing the previous list with the reversed one
             }
+            // Checking if the input is empty, preventing the program to execute no command and, hence, terminate without printing any output to the user
+            if (inputList.isEmpty()){
+                throw new BadChainingException("no founded conversion! Please, type at least one conversion to perform!");
+            }
             // Setting up the sequence of conversion
             if (isInverted) {
                 for (String input : inputList) {
                     UnitConverter converter = ConverterFactory.create(input);
                     Command nextConverter;
-                    if (input.equals(inputList.getFirst())) { // The first element needs the typed value
+                    if (input == inputList.getFirst()) { // checking if input is ACTUALLY the first element (in that case these Strings have not only the same value but also the same location in the memory)
                         Inversion invertedConversion = new Inversion(converter);
                         nextConverter = new Command(invertedConversion, value);
                     } else { // The others need the processed (from the previous converters) value 
@@ -94,7 +87,7 @@ class Main {
                 for (String input : inputList) {
                     UnitConverter converter = ConverterFactory.create(input);
                     Command nextConverter;
-                    if (input.equals(inputList.getFirst())) { // The first element needs the typed value
+                    if (input == inputList.getFirst()) { // checking if input is ACTUALLY the first element (in that case these Strings have not only the same value but also the same location in the memory)
                         nextConverter = new Command(converter, value);
                     } else { // The others need the processed (from the previous converters) value
                         // Getting the last converter in conversionList in this moment (it is the previous one wrt the current instanced converter)
@@ -113,9 +106,8 @@ class Main {
                 }
             }
             for (Command conversion : conversionList) {
-                conversion.execute();
+                conversion.execute(isInverted);
             }
-
         }
         catch(BadConversionStringException e){
             System.out.println(e.getMessage());
@@ -133,7 +125,7 @@ class Main {
         }
         catch(NumberFormatException e){
             System.out.println("Invalid last argument: " + e.getMessage() + "!");
-            System.out.println("Please, write a valid real number");
+            System.out.println("The last argument MUST be valid real number");
         }
         catch(BadChainingException e){
             System.out.println("Incorrect chaining: " + e.getMessage());

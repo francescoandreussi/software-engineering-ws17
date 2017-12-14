@@ -69,13 +69,19 @@ public class KiloToPoundConverter extends WeightConverter
     return "Kilogram to Pound Converter";
   }
 
-  public void convertAndPrint(double value) {
+  public void convertAndPrint(double value, boolean isInverted) {
     if (this.base_conversion == null) {
       System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
     } else {
-      this.base_conversion.convertAndPrint(value);
-      value = this.base_conversion.convert(value);
-      System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
+      if (isInverted) {
+        System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
+        value = this.simpleConvert(value);
+        this.base_conversion.convertAndPrint(value, isInverted);
+      } else {  
+        this.base_conversion.convertAndPrint(value, isInverted);
+        value = this.base_conversion.convert(value);
+        System.out.println(this.toString() + " converted " + value + " kg to " + this.simpleConvert(value) + " lb!");
+      }
     }
   }
 };

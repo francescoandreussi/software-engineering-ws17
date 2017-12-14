@@ -69,13 +69,19 @@ public class BarToKgPerSqMtConverter extends PressureConverter
     return "Bar to Kilogram-per-Squared-Meter Converter";
   }
 
-  public void convertAndPrint(double value) {
+  public void convertAndPrint(double value, boolean isInverted) {
     if (this.base_conversion == null) {
       System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
     } else {
-      System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
-      value = this.base_conversion.convert(value);
-      this.base_conversion.convertAndPrint(value);
+      if (isInverted) {
+        System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
+        value = this.simpleConvert(value);
+        this.base_conversion.convertAndPrint(value, isInverted);
+      } else { 
+        this.base_conversion.convertAndPrint(value, isInverted);
+        value = this.base_conversion.convert(value);
+        System.out.println(this.toString() + " converted " + value + " b to " + this.simpleConvert(value) + " kg/Sq.m!");
+      }
     }
   }
 };

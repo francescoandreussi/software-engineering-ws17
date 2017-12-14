@@ -183,7 +183,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest1(){
-    String expected = "The last converter is invalid!";
+    String expected = "The string NonCompliantString is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("NonCompliantString");
@@ -195,7 +195,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest2(){
-    String expected = "The last converter is invalid!";
+    String expected = "The string  is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("");
@@ -207,7 +207,7 @@ public class TestSuite {
     }
   }
   @Test public static void ExceptionTest3(){
-    String expected = "The last converter is invalid!";
+    String expected = "The string OunceToGram25.96 is invalid!";
     String actual = "";
     try{
       UnitConverter test = ConverterFactory.create("OunceToGram25.96");
@@ -222,7 +222,7 @@ public class TestSuite {
     try{
       UnitConverter test = new EuroToBritishPoundConverter(new DollarToEuroConverter());
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(0.7395, result, 0.001);
     } catch(BadChainingException e){
       fail();
@@ -232,7 +232,7 @@ public class TestSuite {
     try{
       UnitConverter test = new BritishPoundToSwissFrancConverter(new EuroToBritishPoundConverter(new DollarToEuroConverter()));
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(0.959, result, 0.001);
     } catch (BadChainingException e) {
       fail();
@@ -242,7 +242,7 @@ public class TestSuite {
     try{
       UnitConverter test = new BarToKgPerSqMtConverter(new PascalToBarConverter(new AtmToPascalConverter()));
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(10332.274, result, 0.001);
     } catch (BadChainingException e) {
       fail();
@@ -255,7 +255,7 @@ public class TestSuite {
     try{
       UnitConverter test = new OunceToGramConverter(new PoundToOunceConverter(new KiloToPoundConverter()));
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(1000.153, result, 0.001);
     } catch (BadChainingException e) {
       fail();
@@ -267,7 +267,7 @@ public class TestSuite {
     try{
       UnitConverter test = new KiloToPoundConverter(new OunceToGramConverter());
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(1000.153, result, 0.001);
     } catch (BadChainingException e) {
       actual = e.getMessage();
@@ -282,7 +282,7 @@ public class TestSuite {
     try{
       UnitConverter test = new DollarToEuroConverter(new KiloToPoundConverter());
       double result = test.convert(1);
-      //test.convertAndPrint(1);
+      //test.convertAndPrint(1, false);
       assertEquals(1000.153, result, 0.001);
     } catch (BadChainingException e) {
       actual = e.getMessage();
@@ -295,7 +295,7 @@ public class TestSuite {
     try{
       UnitConverter test = new Inversion(new DollarToEuroConverter());
       double result = test.convert(1);
-      // Missing an adequate convertAndPrint for this case
+      //test.convertAndPrint(1, true);
       assertEquals(1.176, result, 0.001);
     } catch (BadChainingException e){
       fail();
@@ -305,7 +305,7 @@ public class TestSuite {
     try{
       UnitConverter test = new Inversion(new BarToKgPerSqMtConverter(new PascalToBarConverter()));
       double result = test.convert(1);
-      // Missing an adequate convertAndPrint for this case
+      //test.convertAndPrint(1, true);
       assertEquals(9.807, result, 0.001);
     } catch (BadChainingException e) {
       fail();
@@ -315,7 +315,7 @@ public class TestSuite {
     try{
       UnitConverter test = new Inversion(new OunceToGramConverter(new PoundToOunceConverter(new KiloToPoundConverter())));
       double result = test.convert(100);
-      // Missing an adequate convertAndPrint for this case
+      //test.convertAndPrint(100, true);
       assertEquals(0.1, result, 0.001);
     } catch (BadChainingException e) {
       fail();

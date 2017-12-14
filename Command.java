@@ -25,7 +25,7 @@ public class Command {
         this.value = v;
     }
 
-    public void execute(){
-        this.converter.convertAndPrint(this.value);
+    public void execute(boolean isInverted){
+        this.converter.convertAndPrint(this.value, isInverted);
     }
 }

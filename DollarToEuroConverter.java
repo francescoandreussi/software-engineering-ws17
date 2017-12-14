@@ -69,13 +69,19 @@ public class DollarToEuroConverter extends CurrencyConverter
     return "Dollar to Euro Converter";
   }
 
-  public void convertAndPrint(double value) {
+  public void convertAndPrint(double value, boolean isInverted) {
     if (this.base_conversion == null) {
       System.out.println(this.toString() + " converted " + value + " USD to " + this.simpleConvert(value) + " EUR!");
     } else {
-      this.base_conversion.convertAndPrint(value);
-      value = this.base_conversion.convert(value);
-      System.out.println(this.toString() + " converted " + value + " USD to " + this.simpleConvert(value) + " EUR!");
+      if (isInverted) {
+        System.out.println(this.toString() + " converted " + value + " USD to " + this.simpleConvert(value) + " EUR!");
+        value = this.simpleConvert(value);
+        this.base_conversion.convertAndPrint(value, isInverted);
+      } else {
+        this.base_conversion.convertAndPrint(value, isInverted);
+        value = this.base_conversion.convert(value);
+        System.out.println(this.toString() + " converted " + value + " USD to " + this.simpleConvert(value) + " EUR!");
+      }
     }
   }
 };

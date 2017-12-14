@@ -70,14 +70,20 @@ public class OunceToGramConverter extends WeightConverter
     return "Ounce to Gram Converter";
   }
 
-  public void convertAndPrint(double value) {
+  public void convertAndPrint(double value, boolean isInverted) {
     if (this.base_conversion == null) {
       //System.out.println("caso base convertAndPrint OunceToGram");
       System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
     } else {
-      this.base_conversion.convertAndPrint(value);
-      value = this.base_conversion.convert(value);
-      System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
+      if (isInverted) {
+        System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
+        value = this.simpleConvert(value);
+        this.base_conversion.convertAndPrint(value, isInverted);
+      } else {  
+        this.base_conversion.convertAndPrint(value, isInverted);
+        value = this.base_conversion.convert(value);
+        System.out.println(this.toString() + " converted " + value + " oz to " + this.simpleConvert(value) + " g!");
+      }
     }
   }
 };
