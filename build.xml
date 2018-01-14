@@ -1,0 +1,53 @@
+<project name="SElab" default="dist" basedir=".">
+    <!-- The structure of this file is modelled on the suggestions, the examples and
+         the instructions of the Apache Ant manual for Ant version 1.10.1. 
+         ant.apache.org/manual/index.html -->
+    <description>
+        Build file for the Software Engineering lab class (Exercise 6.2)
+    </description>
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+    <property name="dist" location="dist"/>
+    <property name="reports" location="reports"/>  
+
+    <target name="clean">
+        <delete dir="${bin}" verbose="true"/>
+        <delete dir="${dist}"/>
+        <delete dir="${reports}"/>
+    </target>
+
+    <target name="init" >
+        <tstamp/>
+        <mkdir dir="${bin}"/>
+        <mkdir dir="${reports}"/>
+        <echo file="${reports}/expected_report.txt">Tests: passed: 31, failed 0.</echo>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${bin}"/>
+    </target>
+
+    <target name="test" depends="compile">
+        <java classname="TinyTestJ.RunTests" output="${reports}/actual_report.txt">
+            <classpath path="${bin}"/>
+            <arg value="TestSuite"/>
+        </java>
+    </target>
+
+    <target name="comparefiles" description="loads the expected and the actual report">
+        <loadfile property="expected_r" srcFile="${reports}/expected_report.txt"/>
+        <echo>${expected_r}</echo>
+        <loadfile property="actual_r" srcFile="${reports}/actual_report.txt"/>
+        <echo>${actual_r}</echo>
+        <condition property="successful_test">
+            <equals arg1="${expected_r}" arg2="${actual_r}" trim="true"/>
+        </condition>
+        <echo>${successful_test}</echo>
+    </target>
+
+    <target name="dist" depends="test, comparefiles" if="${successful_test}">
+        <mkdir dir="${dist}"/>
+        <jar jarfile="${dist}/UnitConverter-${DSTAMP}.jar" basedir="${bin}"
+            excludes="TestSuite.class, TinyTestJ/**"/>
+    </target>
+</project>
