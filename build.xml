@@ -11,7 +11,7 @@
     <property name="reports" location="reports"/>  
 
     <target name="clean">
-        <delete dir="${bin}" verbose="true"/>
+        <delete dir="${bin}"/>
         <delete dir="${dist}"/>
         <delete dir="${reports}"/>
     </target>
@@ -42,7 +42,7 @@
         <condition property="successful_test">
             <equals arg1="${expected_r}" arg2="${actual_r}" trim="true"/>
         </condition>
-        <echo>${successful_test}</echo>
+        <echo>Are equal: ${successful_test}</echo>
     </target>
 
     <target name="dist" depends="test, comparefiles" if="${successful_test}">
