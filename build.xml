@@ -48,6 +48,14 @@
     <target name="dist" depends="test, comparefiles" if="${successful_test}">
         <mkdir dir="${dist}"/>
         <jar jarfile="${dist}/UnitConverter-${DSTAMP}.jar" basedir="${bin}"
-            excludes="TestSuite.class, TinyTestJ/**"/>
+            excludes="TestSuite.class, TinyTestJ/**" >
+            <manifest>
+                <attribute name="Main-Class" value="Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="dist">
+        <java jar="${dist}/UnitConverter-${DSTAMP}.jar" fork="true"/>
     </target>
 </project>
