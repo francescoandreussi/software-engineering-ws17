@@ -4,12 +4,14 @@
     // Per ulteriori informazioni, visitare: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Arduino",
-            "type": "arduino",
+            "name": "Debug(Launch)",
+            "type": "java",
             "request": "launch",
             "program": "${file}",
             "cwd": "${workspaceFolder}",
+            "mainClass": "software-engineering-ws17/src/Main",
             "MIMode": "gdb",
             "targetArchitecture": "arm",
             "miDebuggerPath": "",

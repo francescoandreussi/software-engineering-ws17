@@ -130,5 +130,8 @@ class Main {
         catch(BadChainingException e){
             System.out.println("Incorrect chaining: " + e.getMessage());
         }
+        catch(ValueOutOfRangeException e){
+            System.out.println("Incorrect input value: " + e.getMessage());
+        }
     }
 }

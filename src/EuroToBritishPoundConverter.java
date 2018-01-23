@@ -54,14 +54,14 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inEuros) {
-    return inEuros * this.conversionFactor;
+    return Math.round(inEuros * this.conversionFactor*100)/100.00;
   }
 
   public double convert(double inEuros){
     if (this.base_conversion == null) {
-        return inEuros * this.conversionFactor;
+        return Math.round(inEuros * this.conversionFactor*100)/100.00;
     } else {
-        return this.base_conversion.convert(inEuros) * this.conversionFactor;
+        return Math.round(this.base_conversion.convert(inEuros) * this.conversionFactor*100)/100.00;
     }
   }
 
@@ -70,19 +70,24 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
   }
 
   public void convertAndPrint(double value, boolean isInverted) {
-    if (this.base_conversion == null) {
-        //System.out.println("BASE CONV OF Euro to Pound: null");
-        System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
-    } else {
-      if (isInverted) {
-        System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
-        value = this.simpleConvert(value);
-        this.base_conversion.convertAndPrint(value, isInverted);
+    if (Math.abs(value) >= 0.01 ){
+      if (this.base_conversion == null) {
+          //System.out.println("BASE CONV OF Euro to Pound: null");
+          System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
       } else {
-        this.base_conversion.convertAndPrint(value, isInverted);
-        value = this.base_conversion.convert(value);
-        System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
+        if (isInverted) {
+          System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
+          value = this.simpleConvert(value);
+          this.base_conversion.convertAndPrint(value, isInverted);
+        } else {
+          this.base_conversion.convertAndPrint(value, isInverted);
+          value = this.base_conversion.convert(value);
+          System.out.println(this.toString() + " converted " + value + " EUR to " + this.simpleConvert(value) + " GPB!");
+        }
       }
+    } else {
+      throw new ValueOutOfRangeException("The input value of "+this.getClass().toString()
+        + " cannot be between 0.01 and -0.01");
     }
   }
 };

@@ -59,14 +59,14 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inGPBs){
-    return inGPBs * this.conversionFactor;
+    return Math.round(inGPBs * this.conversionFactor*100)/100.00;
   }
   
   public double convert(double inGPBs){
     if (this.base_conversion == null) {
-      return inGPBs * this.conversionFactor;
+      return Math.round(inGPBs * this.conversionFactor*100)/100.00;
     } else {
-      return this.base_conversion.convert(inGPBs) * this.conversionFactor;
+      return Math.round(this.base_conversion.convert(inGPBs) * this.conversionFactor*100)/100.00;
     }
   }
 
@@ -75,18 +75,23 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
   }
 
   public void convertAndPrint(double value, boolean isInverted) {
-    if (this.base_conversion == null) {
-      System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
-    } else {
-      if (isInverted) {
+    if (Math.abs(value) >= 0.01 ){
+      if (this.base_conversion == null) {
         System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
-        value = this.simpleConvert(value);
-        this.base_conversion.convertAndPrint(value, isInverted);
       } else {
-        this.base_conversion.convertAndPrint(value, isInverted);
-        value = this.base_conversion.convert(value);
-        System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
+        if (isInverted) {
+          System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
+          value = this.simpleConvert(value);
+          this.base_conversion.convertAndPrint(value, isInverted);
+        } else {
+          this.base_conversion.convertAndPrint(value, isInverted);
+          value = this.base_conversion.convert(value);
+          System.out.println(this.toString() + " converted " + value + " GPB to " + this.simpleConvert(value) + " CHF!");
+        }
       }
+    } else {
+      throw new ValueOutOfRangeException("The input value of "+this.getClass().toString()
+        + " cannot be between 0.01 and -0.01");
     }
   }
 };
