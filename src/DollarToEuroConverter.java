@@ -54,14 +54,14 @@ public class DollarToEuroConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inDollars) throws ValueOutOfRangeException {
-      return (double)(Math.round((int)(inDollars * this.conversionFactor*100)))/100;
+      return (double)((int)Math.round((inDollars * this.conversionFactor*100)))/100;
   }
 
   public double convert(double inDollars) throws ValueOutOfRangeException {
     if (this.base_conversion == null) {
-        return (double)(Math.round((int)(inDollars * this.conversionFactor*100)))/100;
+        return (double)((int)Math.round((inDollars * this.conversionFactor*100)))/100;
       } else {
-        return (double)(Math.round((int)(this.base_conversion.convert(inDollars)*this.conversionFactor*100)))/100;
+        return (double)((int)Math.round((this.base_conversion.convert(inDollars)*this.conversionFactor*100)))/100;
       }
   }
 

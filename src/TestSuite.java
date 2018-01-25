@@ -6,7 +6,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(10000);
-      assertEquals(8500,result,0.01);
+      assertEquals(8500,result,0.001);
     }
     catch(BadConversionStringException e){
       fail();
@@ -16,7 +16,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(-1);
-      assertEquals(-0.85,result,0.01);
+      assertEquals(-0.85,result,0.001);
     }
     catch (BadConversionStringException e) {
       fail();
@@ -26,7 +26,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("DollarToEuro");
       double result = test.convert(-Double.MIN_VALUE);
-      assertEquals(0,result,0.01);
+      assertEquals(0,result,0.001);
     }
     catch (BadConversionStringException e) {
       fail();
@@ -36,7 +36,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(450.5678);
-      assertEquals(584.38,result,0.01);
+      assertEquals(584.39,result,0.001);
     }
     catch (BadConversionStringException e) {
       fail();
@@ -46,7 +46,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(Double.NEGATIVE_INFINITY);
-      assertEquals(-2.147483648E7,result,0.01);
+      assertEquals(0,result,0.001);
     }
     catch (BadConversionStringException e) {
       fail();
@@ -56,7 +56,7 @@ public class TestSuite {
     try{
       UnitConverter test = ConverterFactory.create("BritishPoundToSwissFranc");
       double result = test.convert(Double.MAX_VALUE);
-      assertEquals(2.147483647E7,result,0.01);
+      assertEquals(-0.01,result,0.001);
     }
     catch (BadConversionStringException e) {
       fail();
@@ -223,7 +223,7 @@ public class TestSuite {
       UnitConverter test = new EuroToBritishPoundConverter(new DollarToEuroConverter());
       double result = test.convert(1);
       //test.convertAndPrint(1, false);
-      assertEquals(0.73, result, 0.01);
+      assertEquals(0.74, result, 0.001);
     } catch(BadChainingException e){
       fail();
     }
@@ -233,7 +233,7 @@ public class TestSuite {
       UnitConverter test = new BritishPoundToSwissFrancConverter(new EuroToBritishPoundConverter(new DollarToEuroConverter()));
       double result = test.convert(1);
       //test.convertAndPrint(1, false);
-      assertEquals(0.94, result, 0.01);
+      assertEquals(0.96, result, 0.001);
     } catch (BadChainingException e) {
       fail();
     }
@@ -296,7 +296,7 @@ public class TestSuite {
       UnitConverter test = new Inversion(new DollarToEuroConverter());
       double result = test.convert(1);
       //test.convertAndPrint(1, true);
-      assertEquals(1.17, result, 0.01);
+      assertEquals(1.18, result, 0.01);
     } catch (BadChainingException e){
       fail();
     }
