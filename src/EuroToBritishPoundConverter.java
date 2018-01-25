@@ -54,14 +54,14 @@ public class EuroToBritishPoundConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inEuros) {
-    return Math.round(inEuros * this.conversionFactor*100)/100.00;
+    return (double)(Math.round((int)(inEuros * this.conversionFactor*100)))/100;
   }
 
   public double convert(double inEuros){
     if (this.base_conversion == null) {
-        return Math.round(inEuros * this.conversionFactor*100)/100.00;
+        return (double)(Math.round((int)(inEuros * this.conversionFactor*100)))/100;
     } else {
-        return Math.round(this.base_conversion.convert(inEuros) * this.conversionFactor*100)/100.00;
+        return (double)(Math.round((int)(this.base_conversion.convert(inEuros) * this.conversionFactor*100)))/100;
     }
   }
 

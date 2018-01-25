@@ -59,14 +59,14 @@ public class BritishPoundToSwissFrancConverter extends CurrencyConverter
   }
 
   public double simpleConvert(double inGPBs){
-    return Math.round(inGPBs * this.conversionFactor*100)/100.00;
+    return (double)(Math.round((int)(inGPBs * this.conversionFactor*100)))/100;
   }
   
   public double convert(double inGPBs){
     if (this.base_conversion == null) {
-      return Math.round(inGPBs * this.conversionFactor*100)/100.00;
+      return (double)(Math.round((int)(inGPBs * this.conversionFactor*100)))/100;
     } else {
-      return Math.round(this.base_conversion.convert(inGPBs) * this.conversionFactor*100)/100.00;
+      return (double)(Math.round((int)(this.base_conversion.convert(inGPBs) * this.conversionFactor*100)))/100;
     }
   }
 
